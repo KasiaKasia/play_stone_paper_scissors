@@ -6,9 +6,8 @@
 2. Download the file from:
 http://wxpython.org/Phoenix/snapshot-builds/
 
-3. Paste:
+3. Paste the file wx:
 C:\Python34\Scripts
-file wx 
 
 4. Perform the command:  
 pip3 install -U --pre wxPython_Phoenix-3.0.3.dev1654+f81d003-cp34-none-win32.whl
