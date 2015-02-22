@@ -1,7 +1,7 @@
 # playing_stone_paper_scissors
  Python 3.4 - wxPython; Play: stone, paper, scissors
  
- 1.Install Python 3.4
+1. Install Python 3.4
 
 2. Download the file from:
 http://wxpython.org/Phoenix/snapshot-builds/
