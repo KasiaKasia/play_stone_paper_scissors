@@ -59,8 +59,8 @@ class Play(wx.Frame):
         self.SetSize(500, 300)
         self.SetTitle('Play: stone, peper, scissors')
 
-        self.punktGracz2=0
-        self.punktGracz1=0
+        self.pointPlayer2=0
+        self.pointPlayer1=0
         self.Centre()
         self.Show(True)
 
@@ -73,34 +73,34 @@ class Play(wx.Frame):
 
         if unit1 == unit2:
             self.result.SetLabel("Round result: \n  remis  ")
-            self.punktGracz2 += 1
-            self.punktGracz1 += 1
-            self.grid.SetCellValue(0, 1, str(self.punktGracz1))
-            self.grid.SetCellValue(0, 0, str(self.punktGracz2))
+            self.pointPlayer2 += 1
+            self.pointPlayer1 += 1
+            self.grid.SetCellValue(0, 1, str(self.pointPlayer1))
+            self.grid.SetCellValue(0, 0, str(self.pointPlayer2))
         elif unit1 == 'Stone' and unit2 == 'Peper':
             self.result.SetLabel('Round result: \n Won Peper')
-            self.punktGracz2 += 1
-            self.grid.SetCellValue(0, 0, str(self.punktGracz2))
+            self.pointPlayer2 += 1
+            self.grid.SetCellValue(0, 0, str(self.pointPlayer2))
         elif unit2 == 'Stone' and unit1 == 'Peper':
             self.result.SetLabel('Round result: \n Won Peper')
-            self.punktGracz1 += 1
-            self.grid.SetCellValue(0, 1, str(self.punktGracz1))
+            self.pointPlayer1 += 1
+            self.grid.SetCellValue(0, 1, str(self.pointPlayer1))
         elif unit1 == 'Stone' and unit2 == 'Scissors':
             self.result.SetLabel('Round result: \n Won Stone')
-            self.punktGracz1 += 1
-            self.grid.SetCellValue(0, 1, str(self.punktGracz1))
+            self.pointPlayer1 += 1
+            self.grid.SetCellValue(0, 1, str(self.pointPlayer1))
         elif unit2 == 'Stone' and unit1 == 'Scissors':
             self.result.SetLabel('Round result: \n Won Stone')
-            self.punktGracz2 += 1
-            self.grid.SetCellValue(0, 0, str(self.punktGracz2))
+            self.pointPlayer2 += 1
+            self.grid.SetCellValue(0, 0, str(self.pointPlayer2))
         elif unit1 == 'Scissors' and unit2 == 'Papier':
             self.result.SetLabel('Round result: \n Won Scissors')
-            self.punktGracz1 += 1
-            self.grid.SetCellValue(0, 1, str(self.punktGracz1))
+            self.pointPlayer1 += 1
+            self.grid.SetCellValue(0, 1, str(self.pointPlayer1))
         elif unit2 == 'Scissors' and unit1 == 'Peper':
             self.result.SetLabel('Round result: \n Won Scissors')
-            self.punktGracz2 += 1
-            self.grid.SetCellValue(0, 0, str(self.punktGracz2))
+            self.pointPlayer2 += 1
+            self.grid.SetCellValue(0, 0, str(self.pointPlayer2))
 
     def OnClose(self, event):
         dlg = wx.MessageDialog(self,
