@@ -1,5 +1,7 @@
+
 __author__ = 'KatarzynaAleksandra'
 import wx
+import wx.grid as gridlib
 
 class Play(wx.Frame):
 
@@ -26,53 +28,84 @@ class Play(wx.Frame):
         second_player = ['','Stone', 'Peper', 'Scissors']
 
         self.cb1 = wx.ComboBox(panel, value=first_player[0],  choices=first_player)
+        self.button = wx.Button(panel, -1, "Calculate the result ", (100,20))
         self.cb2 = wx.ComboBox(panel, value=second_player[0], choices=second_player)
 
 
-        self.st1 = wx.StaticText(panel, label=' ', pos=wx.Point(210, 10))
-        self.st2 = wx.StaticText(panel, label=' ', pos=wx.Point(210, 10))
-        self.result = wx.StaticText(panel, label=' ', pos=wx.Point(210, 10))
+        self.st1 = wx.StaticText(panel, label='', pos=wx.Point(210, 10))
+        self.st2 = wx.StaticText(panel, label='', pos=wx.Point(210, 10))
+        self.result = wx.StaticText(panel, label='', pos=wx.Point(210, 10))
 
-        self.cb1.Bind(wx.EVT_COMBOBOX, self.OnSelect)
-        self.cb2.Bind(wx.EVT_COMBOBOX, self.OnSelect)
 
+        self.button.Bind(wx.EVT_BUTTON, self.OnSelect)
+        self.grid = wx.grid.Grid(panel)
 
         sizer = wx.BoxSizer(wx.VERTICAL)
         sizer.Add(self.cb1, flag=wx.ALL, border=5)
         sizer.Add(self.cb2, flag=wx.ALL, border=5)
 
-        sizer.Add(self.st1, flag=wx.ALL, border=5)
-        sizer.Add(self.st2, flag=wx.ALL, border=5)
-        sizer.Add(self.result, flag=wx.ALL, border=5)
+        sizer.Add(self.st1)
+        sizer.Add(self.st2)
+        sizer.Add(self.result)
 
+        self.grid.CreateGrid(1, 2)
+        self.grid.SetColLabelValue(0, "Player 1")
+        self.grid.SetColLabelValue(1, "Player 2")
+        self.grid.SetRowLabelValue(0, "Result : " )
+
+        sizer.Add(self.grid,0, wx.ALIGN_CENTER)
         panel.SetSizer(sizer)
 
-        self.SetSize((630, 330))
+        self.SetSize(500, 300)
         self.SetTitle('Play: stone, peper, scissors')
+
+        self.punktGracz2=0
+        self.punktGracz1=0
         self.Centre()
         self.Show(True)
 
-    def OnSelect(self, event):
+    def OnSelect(self, event ):
 
         unit1 = self.cb1.GetValue()
         unit2 = self.cb2.GetValue()
         self.st1.SetLabel("The first player chosen " +unit1)
-        self.st2.SetLabel("The second player chosen " +unit2)
-
+        self.st2.SetLabel("The second player chosen " + unit2)
 
         if unit1 == unit2:
-            self.result.SetLabel("Result: \n  remis  " )
-        elif unit1 == 'Stone' and unit2 == 'Peper' or unit2 == 'Stone' and unit1 == 'Peper' :
-            self.result.SetLabel('Result: \n Won Peper')
-        elif unit1 == 'Stone' and unit2 == 'Scissors' or unit2 == 'Stone' and unit1 == 'Scissors':
-            self.result.SetLabel('Result: \n Won Stone')
-        elif unit1 == 'Scissors' and unit2 == 'Papier' or unit2 == 'Scissors' and unit1 == 'Peper':
-            self.result.SetLabel('Result: \n Won Scissors')
+            self.result.SetLabel("Round result: \n  remis  ")
+            self.punktGracz2 += 1
+            self.punktGracz1 += 1
+            self.grid.SetCellValue(0, 1, str(self.punktGracz1))
+            self.grid.SetCellValue(0, 0, str(self.punktGracz2))
+        elif unit1 == 'Stone' and unit2 == 'Peper':
+            self.result.SetLabel('Round result: \n Won Peper')
+            self.punktGracz2 += 1
+            self.grid.SetCellValue(0, 0, str(self.punktGracz2))
+        elif unit2 == 'Stone' and unit1 == 'Peper':
+            self.result.SetLabel('Round result: \n Won Peper')
+            self.punktGracz1 += 1
+            self.grid.SetCellValue(0, 1, str(self.punktGracz1))
+        elif unit1 == 'Stone' and unit2 == 'Scissors':
+            self.result.SetLabel('Round result: \n Won Stone')
+            self.punktGracz1 += 1
+            self.grid.SetCellValue(0, 1, str(self.punktGracz1))
+        elif unit2 == 'Stone' and unit1 == 'Scissors':
+            self.result.SetLabel('Round result: \n Won Stone')
+            self.punktGracz2 += 1
+            self.grid.SetCellValue(0, 0, str(self.punktGracz2))
+        elif unit1 == 'Scissors' and unit2 == 'Papier':
+            self.result.SetLabel('Round result: \n Won Scissors')
+            self.punktGracz1 += 1
+            self.grid.SetCellValue(0, 1, str(self.punktGracz1))
+        elif unit2 == 'Scissors' and unit1 == 'Peper':
+            self.result.SetLabel('Round result: \n Won Scissors')
+            self.punktGracz2 += 1
+            self.grid.SetCellValue(0, 0, str(self.punktGracz2))
 
     def OnClose(self, event):
         dlg = wx.MessageDialog(self,
-            "Do you really want to close this application?",
-            "Confirm Exit", wx.OK|wx.CANCEL|wx.ICON_QUESTION)
+                               "Do you really want to close this application?",
+                               "Confirm Exit", wx.OK | wx.CANCEL | wx.ICON_QUESTION)
         result = dlg.ShowModal()
         dlg.Destroy()
         if result == wx.ID_OK:
@@ -80,18 +113,19 @@ class Play(wx.Frame):
 
     def OnAbout(self, event):
         dlg = wx.MessageDialog(self,
-            "Rock-paper-scissors - game for two or more people. \n"
-            "Scissors is stronger than paper   \n"
-            "Stone is stronger than the scissors  \n"
-            "Paper is stronger than stone " )
+                               "Rock-paper-scissors - game for two or more people. \n"
+                               "Scissors is stronger than paper   \n"
+                               "Stone is stronger than the scissors  \n"
+                               "Paper is stronger than stone ")
         result = dlg.ShowModal()
         dlg.Destroy()
 
-def main():
 
+def main():
     ex = wx.App()
     Play(None)
     ex.MainLoop()
+
 
 if __name__ == '__main__':
     main()
